@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deadline Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Deadline Tracker</h1>
+        <p>Keep track of upcoming and overdue assignments.</p>
+    </header>
+
+    <main>
+        <section>
+            <h2>My Deadlines</h2>
+
+            {% if assignments %}
+                {% for assignment in assignments %}
+                    <div>
+                        <h3>{{ assignment.title }}</h3>
+                        <p>Subject: {{ assignment.subject }}</p>
+                        <p>Due Date: {{ assignment.due_date }}</p>
+                        <p>Status: {{ assignment.status }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No assignments available to track yet.</p>
+            {% endif %}
+
+            <br>
+            <a href="/assignments">Manage Assignments</a>
+            <br><br>
+            <a href="/">Back to Home</a>
+        </section>
+    </main>
+</body>
+</html>
