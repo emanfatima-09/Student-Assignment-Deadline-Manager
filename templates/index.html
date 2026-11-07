@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Assignment & Deadline Manager</title>
+
+    <!-- Connect CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Student Assignment & Deadline Manager</h1>
+        <p>Organize your assignments. Track your deadlines. Stay on top of your studies.</p>
+    </header>
+
+    <main>
+        <section>
+            <h2>Welcome, Student!</h2>
+            <p>Manage your coursework in one place.</p>
+
+            <div>
+    <h3>Assignments</h3>
+    <p>Add and manage your assignments.</p>
+    <a href="/assignments">
+        <button type="button">Manage Assignments</button>
+    </a>
+</div>
+
+            <div>
+    <h3>Deadline Tracker</h3>
+    <p>Keep track of upcoming and overdue deadlines.</p>
+    <a href="/deadlines">
+        <button type="button">View Deadlines</button>
+    </a>
+</div>
+        </section>
+    </main>
+</body>
+</html>

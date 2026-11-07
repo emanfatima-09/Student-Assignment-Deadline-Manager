@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Assignments</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Manage Assignments</h1>
+        <p>Add and view your coursework in one place.</p>
+    </header>
+
+    <main>
+        <section>
+            <h2>Add New Assignment</h2>
+
+            <form action="/assignments" method="POST">
+                <label for="title">Assignment Title</label><br>
+                <input type="text" id="title" name="title" required>
+                <br><br>
+
+                <label for="subject">Subject</label><br>
+                <input type="text" id="subject" name="subject" required>
+                <br><br>
+
+                <label for="due_date">Due Date</label><br>
+                <input type="date" id="due_date" name="due_date" required>
+                <br><br>
+
+                <button type="submit">Add Assignment</button>
+            </form>
+
+            <hr>
+
+            <h3>Filter Assignments</h3>
+
+            <form action="/assignments" method="GET">
+                <select name="status">
+                    <option value="all"
+                        {% if selected_status == "all" %}selected{% endif %}>
+                        All Assignments
+                    </option>
+
+                    <option value="pending"
+                        {% if selected_status == "pending" %}selected{% endif %}>
+                        Pending Assignments
+                    </option>
+
+                    <option value="completed"
+                        {% if selected_status == "completed" %}selected{% endif %}>
+                        Completed Assignments
+                    </option>
+                </select>
+
+                <button type="submit">Apply Filter</button>
+            </form>
+
+            <hr>
+
+            <h3>Sort Assignments by Due Date</h3>
+
+            <form action="/assignments" method="GET">
+                <input type="hidden" name="status" value="{{ selected_status }}">
+
+                <select name="sort">
+                    <option value="newest"
+                        {% if selected_sort == "newest" %}selected{% endif %}>
+                        Recently Added First
+                    </option>
+
+                    <option value="earliest"
+                        {% if selected_sort == "earliest" %}selected{% endif %}>
+                        Earliest Due Date First
+                    </option>
+
+                    <option value="latest"
+                        {% if selected_sort == "latest" %}selected{% endif %}>
+                        Latest Due Date First
+                    </option>
+                </select>
+
+                <button type="submit">Apply Sorting</button>
+            </form>
+
+            <hr>
+
+            <h2>Assignment Progress</h2>
+
+            <div>
+                <h3>Total Assignments: {{ total_assignments }}</h3>
+                <h3>Completed: {{ completed_count }}</h3>
+                <h3>Pending: {{ pending_count }}</h3>
+            </div>
+
+            <hr>
+
+            <h2>My Assignments</h2>
+
+            {% if assignments %}
+                {% for assignment in assignments %}
+                    <div>
+                        <h3>{{ assignment.title }}</h3>
+
+                        <p>Subject: {{ assignment.subject }}</p>
+                        <p>Due Date: {{ assignment.due_date }}</p>
+
+                        {% if assignment.completed == 1 %}
+                            <p>Status: Completed</p>
+
+                            <form action="/toggle_complete/{{ assignment.id }}" method="POST">
+                                <button type="submit">Mark as Pending</button>
+                            </form>
+                        {% else %}
+                            <p>Status: Pending</p>
+
+                            <form action="/toggle_complete/{{ assignment.id }}" method="POST">
+                                <button type="submit">Mark as Completed</button>
+                            </form>
+                        {% endif %}
+
+                        <form action="/delete_assignment/{{ assignment.id }}" method="POST">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </div>
+                    <hr>
+                {% endfor %}
+            {% else %}
+                <p>No assignments found for this filter.</p>
+            {% endif %}
+
+            <br>
+            <a href="/">Back to Home</a>
+        </section>
+    </main>
+</body>
+</html>
